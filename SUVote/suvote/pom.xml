@@ -1,0 +1,34 @@
+<!-- Add these dependencies to your pom.xml -->
+
+<dependencies>
+    <!-- Quarkus Hibernate ORM with Panache -->
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    </dependency>
+
+    <!-- Quarkus JDBC MySQL -->
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-jdbc-mysql</artifactId>
+    </dependency>
+
+    <!-- Quarkus RESTEasy Reactive Jackson -->
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+    </dependency>
+
+    <!-- BCrypt for password hashing -->
+    <dependency>
+        <groupId>org.mindrot</groupId>
+        <artifactId>jbcrypt</artifactId>
+        <version>0.4</version>
+    </dependency>
+
+    <!-- Agroal (already in your project) -->
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-agroal</artifactId>
+    </dependency>
+</dependencies>
