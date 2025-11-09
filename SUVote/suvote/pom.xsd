@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="project">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="properties">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="quarkus.platform.version" type="xs:string" />
+                            <xs:element name="surefire-plugin.version" type="xs:string" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="dependencyManagement">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="dependencies">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="dependency">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="groupId" type="xs:string" />
+                                                    <xs:element name="artifactId" type="xs:string" />
+                                                    <xs:element name="version" type="xs:string" />
+                                                    <xs:element name="type" type="xs:string" />
+                                                    <xs:element name="scope" type="xs:string" />
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="dependencies">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="dependency" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="groupId" type="xs:string" />
+                                        <xs:element name="artifactId" type="xs:string" />
+                                        <xs:element name="scope" minOccurs="0" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="build">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="plugins">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="plugin" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="groupId" type="xs:string" />
+                                                    <xs:element name="artifactId" type="xs:string" />
+                                                    <xs:element name="version" type="xs:string" />
+                                                    <xs:element name="extensions" minOccurs="0"
+                                                        type="xs:string" />
+                                                    <xs:element name="executions" minOccurs="0">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="execution">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element name="goals">
+                                                                                <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                        <xs:element
+                                                                                            name="goal"
+                                                                                            maxOccurs="unbounded"
+                                                                                            type="xs:string" />
+                                                                                    </xs:sequence>
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="configuration" minOccurs="0">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="systemProperties">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element
+                                                                                name="java.util.logging.manager"
+                                                                                type="xs:string" />
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
