@@ -1,0 +1,123 @@
+package org.SUVote.resource;
+
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.SUVote.entity.Student;
+import org.SUVote.service.AuthenticationService;
+import org.SUVote.dto.LoginRequest;
+import org.SUVote.dto.LoginResponse;
+
+@Path("/api/auth")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class AuthenticationResource {
+
+    @Inject
+    AuthenticationService authService;
+
+    @POST
+    @Path("/login")
+    @Transactional
+    public Response login(LoginRequest loginRequest) {
+        try {
+            // Validate input
+            if (loginRequest.getStudentNo() == null || loginRequest.getStudentNo().trim().isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new LoginResponse(false, "Student number is required", null))
+                    .build();
+            }
+
+            if (loginRequest.getPassword() == null || loginRequest.getPassword().trim().isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new LoginResponse(false, "Password is required", null))
+                    .build();
+            }
+
+            // Authenticate student
+            Student student = authService.authenticate(
+                loginRequest.getStudentNo(), 
+                loginRequest.getPassword()
+            );
+
+            if (student != null) {
+                // Create successful response
+                LoginResponse response = new LoginResponse(
+                    true,
+                    "Login successful",
+                    student.getId(),
+                    student.getStudentNo(),
+                    student.getFullName(),
+                    student.getFirstName(),
+                    student.getSurname(),
+                    student.getGender(),
+                    student.getNationality()
+                );
+                
+                return Response.ok(response).build();
+            } else {
+                // Authentication failed
+                return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(new LoginResponse(false, "Invalid student number or password", null))
+                    .build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity(new LoginResponse(false, "An error occurred during login", null))
+                .build();
+        }
+    }
+
+    @POST
+    @Path("/register")
+    @Transactional
+    public Response register(Student student) {
+        try {
+            // Validate input
+            if (student.getStudentNo() == null || student.getStudentNo().trim().isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new LoginResponse(false, "Student number is required", null))
+                    .build();
+            }
+
+            if (student.getPassword() == null || student.getPassword().trim().isEmpty()) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new LoginResponse(false, "Password is required", null))
+                    .build();
+            }
+
+            // Check if student already exists
+            Student existing = authService.findByStudentNo(student.getStudentNo());
+            if (existing != null) {
+                return Response.status(Response.Status.CONFLICT)
+                    .entity(new LoginResponse(false, "Student number already registered", null))
+                    .build();
+            }
+
+            // Register new student
+            Student newStudent = authService.register(student);
+            
+            LoginResponse response = new LoginResponse(
+                true,
+                "Registration successful",
+                newStudent.getId(),
+                newStudent.getStudentNo(),
+                newStudent.getFullName(),
+                newStudent.getFirstName(),
+                newStudent.getSurname(),
+                newStudent.getGender(),
+                newStudent.getNationality()
+            );
+            
+            return Response.status(Response.Status.CREATED).entity(response).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity(new LoginResponse(false, "An error occurred during registration", null))
+                .build();
+        }
+    }
+}
