@@ -1,10 +1,10 @@
+dto\AuthResponse.class
+service\AuthService.class
 resource\AuthResource.class
 resource\AuthResource$RegisterRequest.class
-SuVoteResource.class
-dto\AuthResponse.class
 META-INF\panache-archive.marker
-service\AuthService.class
-repository\StudentRepository.class
-resource\AuthResource$LoginRequest.class
 entity\Student.class
 util\PasswordUtil.class
+SuVoteResource.class
+repository\StudentRepository.class
+resource\AuthResource$LoginRequest.class

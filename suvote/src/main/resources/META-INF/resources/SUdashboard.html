@@ -5,7 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SU Vote">
     <title>SU Vote | Dashboard</title>
-    <link rel="stylesheet" href="su.css">
+    <link rel="stylesheet" href="CSS/su.css">
+    <style>
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg, #fff);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-details h2 {
+            margin: 0;
+            color: var(--text-color, #333);
+        }
+        
+        .user-details p {
+            margin: 0.25rem 0;
+            color: var(--text-light, #666);
+        }
+        
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: #c82333;
+        }
+        
+        .login-prompt {
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg, #fff);
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .login-prompt h2 {
+            color: var(--text-color, #333);
+            margin-bottom: 1rem;
+        }
+        
+        .login-prompt p {
+            color: var(--text-light, #666);
+            margin-bottom: 1.5rem;
+        }
+    </style>
 </head>
 <body>
     <header class="site-header">
@@ -14,85 +69,93 @@
                 <h1>SU Vote</h1>
             </div>
             <nav class="main-navigation">
-    <ul>
-        <li><a href="SUindex.html">Home</a></li>
-        <li><a href="SUlogin.html">User</a></li> 
-        <li><a href="SUdashboard.html">Polls</a></li>
-        <li><a href="SUprofilesettings.html">Settings</a></li> 
-        <li><a href="SUabout.html">Contact Us</a></li>
-    </ul>
-</nav>
-</div>
+                <ul>
+                    <li><a href="SUindex.html">Home</a></li>
+                    <li><a href="SUlogin.html">User</a></li> 
+                    <li><a href="SUdashboard.html">Polls</a></li>
+                    <li><a href="SUprofilesettings.html">Settings</a></li> 
+                    <li><a href="SUabout.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-   <main>
-  <!-- Page Header -->
-  <section class="page-header">
-    <div class="container">
-      <h2>Welcome back, Ruan!</h2>
-      <p>Your personal voting dashboard — view available polls and your profile below.</p>
-    </div>
-  </section>
+    <main>
+        <!-- User Info Section -->
+        <section class="page-header">
+            <div class="container">
+                <div id="userInfoSection">
+                    <!-- User info will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
 
-  <!-- Voting Section -->
-  <section class="service-highlights">
-    <div class="container">
-      <h2>Active Polls</h2>
-      <div class="service-cards">
-        <article class="service-card">
-          <div class="service-icon"><div class="icon-placeholder">🗳️</div></div>
-          <h3>Student Council President</h3>
-          <p>Vote for the next SU President who will represent your voice on campus.</p>
-          <div class="event-actions">
-            <a href="SUvote.html" class="btn btn-primary">Vote Now</a>
-          </div>
-        </article>
+        <!-- Voting Section (Only show if logged in) -->
+        <section class="service-highlights" id="votingSection" style="display: none;">
+            <div class="container">
+                <h2>Active Polls</h2>
+                <div class="service-cards">
+                    <article class="service-card">
+                        <div class="service-icon"><div class="icon-placeholder">🗳️</div></div>
+                        <h3>Student Council President</h3>
+                        <p>Vote for the next SU President who will represent your voice on campus.</p>
+                        <div class="event-actions">
+                            <a href="SUvote.html" class="btn btn-primary">Vote Now</a>
+                        </div>
+                    </article>
 
-        <article class="service-card">
-          <div class="service-icon"><div class="icon-placeholder">🎉</div></div>
-          <h3>Event of the Month</h3>
-          <p>Choose which student event should receive full sponsorship this month.</p>
-          <div class="event-actions">
-            <a href="SUvote.html" class="btn btn-primary">Vote Now</a>
-          </div>
-        </article>
+                    <article class="service-card">
+                        <div class="service-icon"><div class="icon-placeholder">🎉</div></div>
+                        <h3>Event of the Month</h3>
+                        <p>Choose which student event should receive full sponsorship this month.</p>
+                        <div class="event-actions">
+                            <a href="SUvote.html" class="btn btn-primary">Vote Now</a>
+                        </div>
+                    </article>
 
-        <article class="service-card">
-          <div class="service-icon"><div class="icon-placeholder">🏆</div></div>
-          <h3>Lecturer of the Year</h3>
-          <p>Vote for the lecturer who inspired you the most this academic year.</p>
-          <div class="event-actions">
-            <a href="SUvote.html" class="btn btn-primary">Vote Now</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
+                    <article class="service-card">
+                        <div class="service-icon"><div class="icon-placeholder">🏆</div></div>
+                        <h3>Lecturer of the Year</h3>
+                        <p>Vote for the lecturer who inspired you the most this academic year.</p>
+                        <div class="event-actions">
+                            <a href="SUvote.html" class="btn btn-primary">Vote Now</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-  <!-- Profile Section -->
-  <section class="intro">
-    <div class="container">
-      <h2>Your Profile</h2>
-      <p><strong>Name:</strong> Ruan Roules</p>
-      <p><strong>Role:</strong> Student</p>
-      <p><strong>Email:</strong> ruan@example.com</p>
-      <p><strong>Status:</strong> Active</p>
-      <a href="SUprofilesettings.html" class="btn btn-secondary">Edit Profile</a>
-    </div>
-  </section>
+        <!-- Profile Section (Only show if logged in) -->
+        <section class="intro" id="profileSection" style="display: none;">
+            <div class="container">
+                <h2>Your Profile</h2>
+                <div id="profileInfo">
+                    <!-- Profile information will be dynamically loaded here -->
+                </div>
+                <a href="SUprofilesettings.html" class="btn btn-secondary">Edit Profile</a>
+            </div>
+        </section>
 
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container">
-      <h2>Have Questions?</h2>
-      <p>We’re here to help with any voting or account inquiries.</p>
-      <a href="SUabout.html" class="btn btn-primary">Contact Support</a>
-    </div>
-  </section>
-</main>
+        <!-- Login Prompt (Show if not logged in) -->
+        <section class="login-prompt" id="loginPrompt">
+            <div class="container">
+                <h2>Please Login to Access Your Dashboard</h2>
+                <p>You need to be logged in to view polls and access your profile information.</p>
+                <a href="SUlogin.html" class="btn btn-primary">Login Now</a>
+            </div>
+        </section>
 
+        <!-- CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Have Questions?</h2>
+                <p>We're here to help with any voting or account inquiries.</p>
+                <a href="SUabout.html" class="btn btn-primary">Contact Support</a>
+            </div>
+        </section>
+    </main>
 
-     <footer class="site-footer">
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
@@ -102,11 +165,11 @@
                 <div class="footer-links">
                     <h3>Quick Links</h3>
                     <ul>
-                      <li><a href="SUindex.html">Home</a></li>
-                      <li><a href="SUlogin.html">User</a></li> 
-                      <li><a href="SUdashboard.html">Polls</a></li>
-                      <li><a href="SUprofilesettings.html">Settings</a></li> 
-                      <li><a href="SUabout.html">Contact Us</a></li>
+                        <li><a href="SUindex.html">Home</a></li>
+                        <li><a href="SUlogin.html">User</a></li> 
+                        <li><a href="SUdashboard.html">Polls</a></li>
+                        <li><a href="SUprofilesettings.html">Settings</a></li> 
+                        <li><a href="SUabout.html">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-contact">
@@ -121,6 +184,82 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Check if user is logged in when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const studentData = localStorage.getItem('student');
+            
+            const loginPrompt = document.getElementById('loginPrompt');
+            const votingSection = document.getElementById('votingSection');
+            const profileSection = document.getElementById('profileSection');
+            const userInfoSection = document.getElementById('userInfoSection');
+            const profileInfo = document.getElementById('profileInfo');
+            
+            if (isLoggedIn === 'true' && studentData) {
+                // User is logged in - show dashboard content
+                const student = JSON.parse(studentData);
+                
+                // Display user info in header
+                userInfoSection.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-details">
+                            <h2>Welcome back, ${student.firstName}!</h2>
+                            <p>Student Number: ${student.studentNo} | Role: Student</p>
+                            <p>Your personal voting dashboard — view available polls and your profile below.</p>
+                        </div>
+                        <button class="btn-logout" onclick="logout()">Logout</button>
+                    </div>
+                `;
+                
+                // Display profile information
+                profileInfo.innerHTML = `
+                    <p><strong>Name:</strong> ${student.firstName} ${student.middleName ? student.middleName + ' ' : ''}${student.surname}</p>
+                    <p><strong>Student Number:</strong> ${student.studentNo}</p>
+                    <p><strong>Gender:</strong> ${student.gender || 'Not specified'}</p>
+                    <p><strong>Nationality:</strong> ${student.nationality || 'Not specified'}</p>
+                    <p><strong>Status:</strong> Active Student</p>
+                `;
+                
+                // Show dashboard sections
+                votingSection.style.display = 'block';
+                profileSection.style.display = 'block';
+                loginPrompt.style.display = 'none';
+                
+            } else {
+                // User is not logged in - show login prompt
+                userInfoSection.innerHTML = '<h2>Student Dashboard</h2>';
+                loginPrompt.style.display = 'block';
+                votingSection.style.display = 'none';
+                profileSection.style.display = 'none';
+            }
+        });
+        
+        function logout() {
+            // Clear login data
+            localStorage.removeItem('student');
+            localStorage.removeItem('isLoggedIn');
+            
+            // Redirect to login page
+            window.location.href = 'SUlogin.html';
+        }
+        
+        // Check authentication on page navigation
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'SUlogin.html';
+            }
+        }
+        
+        // Check auth when accessing protected pages
+        if (window.location.pathname.includes('SUdashboard.html') || 
+            window.location.pathname.includes('SUvote.html') ||
+            window.location.pathname.includes('SUprofilesettings.html')) {
+            checkAuth();
+        }
+    </script>
 
 <!-- Dark Mode Toggle Script -->
 <script>
@@ -158,26 +297,30 @@
 
   const translations = {
     'af': {
-      'Vote For You, You, and You': 'Stem vir jouself, jouself, en jouself',
-      'Choose your favourite event — every vote helps decide the winner.':
-        'Kies jou gunsteling gebeurtenis — elke stem help om die wenner te bepaal.',
-      'Cast your vote': 'Stem nou',
+      'Welcome back, ${student.firstName}!': 'Welkom terug, ${student.firstName}!',
+      'Your personal voting dashboard — view available polls and your profile below.': 'Jou persoonlike stemdashboard — beskou beskikbare stembusse en jou profiel hieronder.',
+      'Active Polls': 'Aktiewe Stembusse',
       'Student Council President': 'Studenteraadspresident',
-      'Event of the Month': 'Geleentheid van die maand',
-      'Lecturer of the Year': 'Dosent van die jaar',
-      'Welcome to the chat! (simulated)': 'Welkom by die klets! (gesimuleer)',
-      'I just voted — go team!': 'Ek het pas gestem — gaan span!'
+      'Event of the Month': 'Geleentheid van die Maand',
+      'Lecturer of the Year': 'Dosent van die Jaar',
+      'Your Profile': 'Jou Profiel',
+      'Please Login to Access Your Dashboard': 'Meld asseblief aan om toegang tot jou dashboard te verkry',
+      'You need to be logged in to view polls and access your profile information.': 'Jy moet aangemeld wees om stembusse te sien en toegang tot jou profielinligting te verkry.',
+      'Have Questions?': 'Het jy Vrae?',
+      "We're here to help with any voting or account inquiries.": 'Ons is hier om te help met enige stem- of rekernavrae.'
     },
     'xh': {
-      'Vote For You, You, and You': 'Votela Wena, Wena, noWena',
-      'Choose your favourite event — every vote helps decide the winner.':
-        'Khetha umsitho owuthandayo — ivoti ngalinye linceda ekugqibeleni ophumeleleyo.',
-      'Cast your vote': 'Votela ngoku',
+      'Welcome back, ${student.firstName}!': 'Wamkelekile, ${student.firstName}!',
+      'Your personal voting dashboard — view available polls and your profile below.': 'Idashboard yakho yokuvota — jonga iipoli ezikhoyo kunye nephrofayile yakho apha ngezantsi.',
+      'Active Polls': 'Iipoli Ezisebenzayo',
       'Student Council President': 'UMongameli weBhunga labafundi',
-      'Event of the Month': 'Umnyhadala wenyanga',
-      'Lecturer of the Year': 'Utitshala wonyaka',
-      'Welcome to the chat! (simulated)': 'Wamkelekile kwincoko! (umzekelo)',
-      'I just voted — go team!': 'Ndivotele nje — phambili iqela!'
+      'Event of the Month': 'Umcimbi wenyanga',
+      'Lecturer of the Year': 'Utishala wonyaka',
+      'Your Profile': 'Iprofayile yakho',
+      'Please Login to Access Your Dashboard': 'Nceda ungene ngemvume ukuze ufikelele kwi-dashboard yakho',
+      'You need to be logged in to view polls and access your profile information.': 'Ufuna ukungena ukuze ubone iipoli kwaye ufikelele kwinkcazelo yeprofayile yakho.',
+      'Have Questions?': 'Unemibuzo?',
+      "We're here to help with any voting or account inquiries.": 'Silapha ukunceda nganayo na imibuzo yokuvota okanye ye-akhawunti.'
     }
   };
 
@@ -198,18 +341,26 @@
     langBtn.textContent = lang.toUpperCase();
 
     if (lang === 'en') {
-      // restore original text (reload or reverse translation)
+      // Restore original text
       document.querySelectorAll('[data-original-text]').forEach(el => {
         el.textContent = el.getAttribute('data-original-text');
       });
       return;
     }
 
-    // translate elements that have matching text content
+    // Translate elements
     for (const [enText, translated] of Object.entries(translations[lang])) {
       document.querySelectorAll('*').forEach(el => {
         const txt = el.textContent.trim();
-        if (txt === enText) {
+        // Handle dynamic content with placeholders
+        if (txt.includes('Welcome back') && enText.includes('Welcome back')) {
+          const student = JSON.parse(localStorage.getItem('student') || '{"firstName":"Student"}');
+          const translatedText = translated.replace('${student.firstName}', student.firstName);
+          if (!el.hasAttribute('data-original-text')) {
+            el.setAttribute('data-original-text', txt);
+          }
+          el.textContent = translatedText;
+        } else if (txt === enText.replace('${student.firstName}', 'Student')) {
           if (!el.hasAttribute('data-original-text')) {
             el.setAttribute('data-original-text', txt);
           }
@@ -221,5 +372,6 @@
 })();
 </script>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+</body>
 </html>

@@ -3,122 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SU Vote">
-    <title>SU Vote | Register</title>
-    <link rel="stylesheet" href="/CSS/su.css">
+    <meta name="description" content="SU Vote - Student Login">
+    <title>SU Vote | Student Login</title>
+    <link rel="stylesheet" href="CSS/su.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 2rem;
+            background: var(--card-bg, #fff);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-color, #333);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--text-color, #333);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 5px;
+            font-size: 1rem;
+            background: var(--input-bg, #fff);
+            color: var(--text-color, #333);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn-login:hover {
+            background: #0056b3;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #28a745;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
- <main class="user-profile-content">
+    <main class="user-profile-content">
         <div class="container">
-            <section class="not-logged-in-section">
-                <h2>Welcome to your User Profile</h2>
-                <p>It looks like you're not logged in yet. Please log in to view your profile details or register for a new account.</p>
-                <div class="user-actions">
-                    <a href="SUlogin.html" class="btn btn-primary">Login</a>
-                    <a href="SUregister.html" class="btn btn-secondary">Register</a>
-                </div>
-            </section>
+            <div class="login-container">
+                <h1 class="login-title">Student Login</h1>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="studentNo" class="form-label">Student Number</label>
+                        <input type="text" id="studentNo" class="form-input" placeholder="Enter your student number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-login" id="loginBtn">Login</button>
+                    
+                    <div id="errorMessage" class="error-message">
+                        Invalid student number or password
+                    </div>
+                    
+                    <div id="successMessage" class="success-message">
+                        Login successful! Redirecting...
+                    </div>
+                </form>
+            </div>
         </div>
     </main>
-<!-- Dark Mode Toggle Script -->
-<script>
-(function() {
-  const toggleBtn = document.createElement('button');
-  toggleBtn.id = 'darkModeToggle';
-  toggleBtn.title = 'Toggle dark mode';
-  toggleBtn.textContent = '🌙';
-  document.body.appendChild(toggleBtn);
 
-  // Load user preference
-  const isDark = localStorage.getItem('su_dark_mode') === 'true';
-  if (isDark) {
-    document.body.classList.add('dark-mode');
-    toggleBtn.textContent = '☀️';
-  }
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const studentNo = document.getElementById('studentNo').value.trim();
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Hide previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Basic validation
+            if (!studentNo || !password) {
+                errorMessage.textContent = 'Please enter both student number and password';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Show loading state
+            loginBtn.textContent = 'Logging in...';
+            loginBtn.classList.add('loading');
+            
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        studentNo: studentNo,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Login successful
+                    successMessage.style.display = 'block';
+                    loginBtn.textContent = 'Login Successful!';
+                    
+                    // Store user data in localStorage
+                    localStorage.setItem('student', JSON.stringify(data.student));
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    // Redirect to dashboard after 1 second
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                    
+                } else {
+                    // Login failed
+                    errorMessage.textContent = data.message || 'Invalid student number or password';
+                    errorMessage.style.display = 'block';
+                    loginBtn.textContent = 'Login';
+                    loginBtn.classList.remove('loading');
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Network error. Please try again.';
+                errorMessage.style.display = 'block';
+                loginBtn.textContent = 'Login';
+                loginBtn.classList.remove('loading');
+            }
+        });
+        
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
 
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const darkActive = document.body.classList.contains('dark-mode');
-    localStorage.setItem('su_dark_mode', darkActive);
-    toggleBtn.textContent = darkActive ? '☀️' : '🌙';
-  });
-})();
-</script>
+    <!-- Dark Mode Toggle Script -->
+    <script>
+    (function() {
+      const toggleBtn = document.createElement('button');
+      toggleBtn.id = 'darkModeToggle';
+      toggleBtn.title = 'Toggle dark mode';
+      toggleBtn.textContent = '🌙';
+      document.body.appendChild(toggleBtn);
 
-<!-- Language Toggle Script -->
-<script>
-(function() {
-  const langBtn = document.createElement('button');
-  langBtn.id = 'langToggle';
-  langBtn.title = 'Change language';
-  langBtn.textContent = 'EN';
-  document.body.appendChild(langBtn);
+      // Load user preference
+      const isDark = localStorage.getItem('su_dark_mode') === 'true';
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+        toggleBtn.textContent = '☀️';
+      }
 
-  const translations = {
-    'af': {
-      'Vote For You, You, and You': 'Stem vir jouself, jouself, en jouself',
-      'Choose your favourite event — every vote helps decide the winner.':
-        'Kies jou gunsteling gebeurtenis — elke stem help om die wenner te bepaal.',
-      'Cast your vote': 'Stem nou',
-      'Student Council President': 'Studenteraadspresident',
-      'Event of the Month': 'Geleentheid van die maand',
-      'Lecturer of the Year': 'Dosent van die jaar',
-      'Welcome to the chat! (simulated)': 'Welkom by die klets! (gesimuleer)',
-      'I just voted — go team!': 'Ek het pas gestem — gaan span!'
-    },
-    'xh': {
-      'Vote For You, You, and You': 'Votela Wena, Wena, noWena',
-      'Choose your favourite event — every vote helps decide the winner.':
-        'Khetha umsitho owuthandayo — ivoti ngalinye linceda ekugqibeleni ophumeleleyo.',
-      'Cast your vote': 'Votela ngoku',
-      'Student Council President': 'UMongameli weBhunga labafundi',
-      'Event of the Month': 'Umnyhadala wenyanga',
-      'Lecturer of the Year': 'Utitshala wonyaka',
-      'Welcome to the chat! (simulated)': 'Wamkelekile kwincoko! (umzekelo)',
-      'I just voted — go team!': 'Ndivotele nje — phambili iqela!'
-    }
-  };
-
-  const langs = ['en', 'af', 'xh'];
-  let currentLang = localStorage.getItem('su_language') || 'en';
-  updateLanguage(currentLang);
-
-  function cycleLanguage() {
-    const idx = langs.indexOf(currentLang);
-    currentLang = langs[(idx + 1) % langs.length];
-    updateLanguage(currentLang);
-    localStorage.setItem('su_language', currentLang);
-  }
-
-  langBtn.addEventListener('click', cycleLanguage);
-
-  function updateLanguage(lang) {
-    langBtn.textContent = lang.toUpperCase();
-
-    if (lang === 'en') {
-      // restore original text (reload or reverse translation)
-      document.querySelectorAll('[data-original-text]').forEach(el => {
-        el.textContent = el.getAttribute('data-original-text');
+      toggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const darkActive = document.body.classList.contains('dark-mode');
+        localStorage.setItem('su_dark_mode', darkActive);
+        toggleBtn.textContent = darkActive ? '☀️' : '🌙';
       });
-      return;
-    }
-
-    // translate elements that have matching text content
-    for (const [enText, translated] of Object.entries(translations[lang])) {
-      document.querySelectorAll('*').forEach(el => {
-        const txt = el.textContent.trim();
-        if (txt === enText) {
-          if (!el.hasAttribute('data-original-text')) {
-            el.setAttribute('data-original-text', txt);
-          }
-          el.textContent = translated;
-        }
-      });
-    }
-  }
-})();
-</script>
-
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+    })();
+    </script>
+</body>
 </html>
